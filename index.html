@@ -29,13 +29,13 @@
         * { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             transition: background-color 0.3s ease, color 0.3s ease;
-            box-sizing: border-box; /* Ensures padding doesn't add to width */
+            box-sizing: border-box;
         }
 
         body { 
             background: var(--bg-color); 
             color: var(--text-main); 
-            overflow-x: hidden; /* Prevents side-scrolling */
+            overflow-x: hidden;
             width: 100%;
             scroll-behavior: smooth;
             position: relative;
@@ -58,7 +58,7 @@
         .glow {
             position: fixed;
             width: 600px; height: 600px;
-            max-width: 100vw; /* Fixes glow overflow */
+            max-width: 100vw;
             background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%; z-index: -2; filter: blur(80px);
         }
@@ -87,11 +87,11 @@
 
         nav {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            width: 95%; /* Increased width for mobile */
+            width: 95%;
             max-width: 850px; z-index: 1000; border-radius: 100px;
         }
 
-        section { padding: 80px 0; } /* Slightly reduced padding for mobile */
+        section { padding: 80px 0; }
 
         .project-card { transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
         .project-card:hover {
@@ -103,12 +103,140 @@
         .light-mode .text-white { color: #0f172a !important; }
         .light-mode .text-slate-400 { color: #475569 !important; }
 
+        /* Light mode: projects section background */
+        .light-mode #projects { background: rgba(219, 234, 254, 0.35) !important; }
+
+        /* Light mode: card image container */
+        .light-mode .project-card .aspect-video { background: #e2eaf5 !important; }
+
+        /* Light mode: card image full opacity */
+        .light-mode .project-card img { opacity: 0.85 !important; }
+        .light-mode .project-card:hover img { opacity: 1 !important; }
+
         @media (max-width: 640px) {
             nav { border-radius: 25px; padding: 10px 15px; }
             nav ul { font-size: 0.65rem; gap: 6px; flex-wrap: wrap; justify-content: center; }
             .hero-title { font-size: 2.2rem !important; }
             section { padding: 60px 0; }
         }
+
+        /* ===== ADMIN PANEL STYLES ===== */
+        #admin-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        #admin-overlay.open { display: flex; }
+
+        #admin-panel {
+            background: #0a1628;
+            border: 1px solid rgba(59,130,246,0.3);
+            border-radius: 2rem;
+            width: 95%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            box-shadow: 0 0 60px rgba(59,130,246,0.15);
+            position: relative;
+        }
+
+        #admin-panel::-webkit-scrollbar { width: 4px; }
+        #admin-panel::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.4); border-radius: 4px; }
+
+        .admin-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .admin-input:focus { border-color: #3b82f6; }
+        .admin-input::placeholder { color: rgba(255,255,255,0.3); }
+
+        .admin-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #94a3b8;
+            margin-bottom: 6px;
+        }
+
+        .admin-btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .admin-btn-primary { background: #3b82f6; color: white; width: 100%; }
+        .admin-btn-primary:hover { background: #2563eb; }
+        .admin-btn-danger { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); font-size: 0.75rem; padding: 6px 12px; border-radius: 8px; }
+        .admin-btn-danger:hover { background: rgba(239,68,68,0.25); }
+
+        #img-preview {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 12px;
+            display: none;
+            margin-top: 8px;
+            border: 1px solid rgba(59,130,246,0.2);
+        }
+
+        .saved-project-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+        .saved-project-item img {
+            width: 48px;
+            height: 36px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .saved-project-item-name {
+            flex: 1;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @keyframes adminSlideIn {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        #admin-panel { animation: adminSlideIn 0.3s cubic-bezier(0.23,1,0.32,1); }
+
+        /* OG logo double-tap hint pulse */
+        @keyframes logoHint {
+            0%,100% { opacity:1; } 50% { opacity:0.5; }
+        }
+        #og-logo { cursor: pointer; user-select: none; }
     </style>
 </head>
 <body>
@@ -117,7 +245,7 @@
     <div class="glow" style="bottom: -10%; left: -10%; background: radial-gradient(circle, rgba(29, 78, 216, 0.1) 0%, rgba(0,0,0,0) 70%);"></div>
 
     <nav class="glass px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
-        <div class="text-xl font-black tracking-tighter text-white mr-2">O<span class="text-blue-500">G</span></div>
+        <div id="og-logo" class="text-xl font-black tracking-tighter text-white mr-2">O<span class="text-blue-500">G</span></div>
         <ul class="flex gap-2 md:gap-6 items-center">
             <li><a href="#home" class="hover:text-blue-400 transition text-[10px] md:text-sm font-medium">Home</a></li>
             <li><a href="#projects" class="hover:text-blue-400 transition text-[10px] md:text-sm font-medium">Projects</a></li>
@@ -138,7 +266,7 @@
                 Building Brands <br>not just <span class="text-blue-500">Websites😎.</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 max-w-xl leading-relaxed">
-                I’m Ryder OG, a developer specialized in <span class="text-blue-500 font-medium">building websites for brands</span> to help boost the identity of the brand through the digital world.
+                I'm Ryder OG, a developer specialized in <span class="text-blue-500 font-medium">building websites for brands</span> to help boost the identity of the brand through the digital world.
             </p>
             <div class="mt-10 flex flex-wrap gap-4">
                 <a href="#projects" class="px-6 md:px-8 py-4 bg-white text-black font-bold rounded-2xl hover:bg-blue-500 hover:text-white transition-all shadow-xl">View Work</a>
@@ -154,7 +282,8 @@
                 <div class="h-[1px] flex-grow bg-blue-900/30"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Static projects -->
                 <div class="project-card glass p-6 rounded-[2rem] group">
                     <div class="aspect-video bg-slate-900 rounded-2xl mb-6 overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070" alt="ChicBloom" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700">
@@ -166,11 +295,11 @@
 
                 <div class="project-card glass p-6 rounded-[2rem] group">
                     <div class="aspect-video bg-slate-900 rounded-2xl mb-6 overflow-hidden">
-                        <img src="https://cdn.prometheanworld.com/wp-content/uploads/2023/02/18150323/GettyImages-670713794-1.jpg" alt="Elite" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="SaaS" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700">
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-2">Elite Child School</h3>
-                    <p class="text-slate-400 mb-8 text-sm leading-relaxed">Education is key.</p>
-                    <a href="https://elitesch.vercel.app/" class="w-full flex justify-between items-center px-6 py-4 bg-white/5 text-white font-bold rounded-xl hover:bg-blue-600 transition-all border border-white/5">Launch Site <span>→</span></a>
+                    <h3 class="text-2xl font-bold text-white mb-2">SaaS Data Hub</h3>
+                    <p class="text-slate-400 mb-8 text-sm leading-relaxed">Real-time visualization dashboard for tech startups.</p>
+                    <a href="#" class="w-full flex justify-between items-center px-6 py-4 bg-white/5 text-white font-bold rounded-xl hover:bg-blue-600 transition-all border border-white/5">Launch Site <span>→</span></a>
                 </div>
 
                 <div class="project-card glass p-6 rounded-[2rem] group">
@@ -182,7 +311,7 @@
                     <a href="https://hostelbookings0091.netlify.app/" target="_blank" class="w-full flex justify-between items-center px-6 py-4 bg-white/5 text-white font-bold rounded-xl hover:bg-blue-600 transition-all border border-white/5">Launch Site <span>→</span></a>
                 </div>
 
-               <div class="project-card glass p-6 rounded-[2rem] group">
+                <div class="project-card glass p-6 rounded-[2rem] group">
                     <div class="aspect-video bg-slate-900 rounded-2xl mb-6 overflow-hidden">
                         <img src="wmremove-transformed (4).jpeg" alt="Restaurant" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700">
                     </div>
@@ -214,10 +343,11 @@
                         <img src="proposeimg1.png" alt="Fun Site" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700">
                     </div>
                     <h3 class="text-2xl font-bold text-white mb-2">Propose-ly</h3>
-                    <p class="text-slate-400 mb-8 text-sm leading-relaxed">Propose with ease.</p>
+                    <p class="text-slate-400 mb-8 text-sm leading-relaxed">Propose with easesay.</p>
                     <a href="https://propose-ly.fun" target="_blank" class="w-full flex justify-between items-center px-6 py-4 bg-white/5 text-white font-bold rounded-xl hover:bg-blue-600 transition-all border border-white/5">Launch Site <span>→</span></a>
                 </div>
-                
+
+                <!-- Dynamic projects injected here by JS -->
             </div>
         </div>
     </section>
@@ -226,7 +356,7 @@
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-3xl md:text-5xl font-bold mb-8">Enhancing brand identities <br>through <span class="text-blue-500 underline">The Digital World.</span></h2>
             <p class="text-slate-400 text-base md:text-lg leading-loose mb-10">
-                Hey, I'm Ryder OG. I’m a developer who lives at the intersection of logic and creativity. I’ve always been fascinated by how we interact with technology, and I’ve spent my career perfecting the art of building interfaces that feel as good as they look. I build fast, scalable, and user-centric websites.
+                Hey, I'm Ryder OG. I'm a developer who lives at the intersection of logic and creativity. I've always been fascinated by how we interact with technology, and I've spent my career perfecting the art of building interfaces that feel as good as they look. I build fast, scalable, and user-centric websites.
             </p>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="glass py-4 md:py-6 rounded-2xl"><h4 class="text-blue-500 font-bold text-lg md:text-xl">UI/UX</h4></div>
@@ -291,8 +421,79 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
     </button>
 
+    <!-- ===== ADMIN PANEL ===== -->
+    <div id="admin-overlay">
+        <div id="admin-panel">
+            <!-- Auth Screen -->
+            <div id="admin-auth">
+                <div class="text-center mb-6">
+                    <div class="text-2xl font-black text-white mb-1">O<span class="text-blue-500">G</span> Admin</div>
+                    <p class="text-slate-500 text-sm">Enter password to continue</p>
+                </div>
+                <div class="mb-4">
+                    <label class="admin-label">Password</label>
+                    <input type="password" id="admin-password" class="admin-input" placeholder="••••••••••" autocomplete="off">
+                    <p id="auth-error" class="text-red-400 text-xs mt-2 hidden">Incorrect password. Try again.</p>
+                </div>
+                <button class="admin-btn admin-btn-primary" onclick="authLogin()">Unlock Panel</button>
+                <button class="admin-btn w-full mt-3" style="background:rgba(255,255,255,0.05);color:#94a3b8;" onclick="closeAdmin()">Cancel</button>
+            </div>
+
+            <!-- Main Panel -->
+            <div id="admin-main" class="hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <div class="text-xl font-black text-white">O<span class="text-blue-500">G</span> Admin</div>
+                        <p class="text-slate-500 text-xs">Manage Projects</p>
+                    </div>
+                    <button onclick="closeAdmin()" class="p-2 rounded-xl hover:bg-white/10 transition text-slate-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+
+                <!-- Add Project Form -->
+                <div class="mb-6 p-5 rounded-2xl" style="background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.15);">
+                    <h3 class="text-sm font-bold text-blue-400 uppercase tracking-widest mb-4">Add New Project</h3>
+
+                    <div class="mb-3">
+                        <label class="admin-label">Project Name</label>
+                        <input type="text" id="p-name" class="admin-input" placeholder="e.g. ChicBloom Collections">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="admin-label">Caption / Description</label>
+                        <input type="text" id="p-caption" class="admin-input" placeholder="e.g. High-end e-commerce for lifestyle brands.">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="admin-label">Project URL</label>
+                        <input type="url" id="p-url" class="admin-input" placeholder="https://yourproject.com">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="admin-label">Image URL</label>
+                        <input type="url" id="p-img" class="admin-input" placeholder="https://example.com/image.jpg" oninput="previewImg()">
+                        <img id="img-preview" alt="Preview" onerror="this.style.display='none'">
+                    </div>
+
+                    <button class="admin-btn admin-btn-primary" onclick="addProject()">＋ Add to Grid</button>
+                    <p id="add-error" class="text-red-400 text-xs mt-2 hidden">Please fill in all fields.</p>
+                    <p id="add-success" class="text-green-400 text-xs mt-2 hidden">✓ Project added successfully!</p>
+                </div>
+
+                <!-- Saved Projects -->
+                <div>
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Added Projects (<span id="project-count">0</span>)</h3>
+                    <div id="saved-projects-list">
+                        <p class="text-slate-600 text-sm text-center py-4">No custom projects yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Scripts remain identical to your original code
+        // ===== THEME =====
         const themeToggle = document.getElementById('theme-toggle');
         const sunIcon = document.getElementById('sun-icon');
         const moonIcon = document.getElementById('moon-icon');
@@ -305,6 +506,7 @@
             moonIcon.classList.toggle('hidden', isLight);
         });
 
+        // ===== CONTACT =====
         const contactForm = document.getElementById('contact-form');
         const bearArm = document.getElementById('bear-arm');
 
@@ -332,6 +534,7 @@
             }
         });
 
+        // ===== SCROLL TO TOP =====
         const toTopBtn = document.getElementById('toTop');
         window.onscroll = function() {
             if (document.documentElement.scrollTop > 500) {
@@ -343,7 +546,259 @@
             }
         };
         toTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // ===== ADMIN: DOUBLE-TAP / DOUBLE-CLICK ON OG LOGO =====
+        const ogLogo = document.getElementById('og-logo');
+        let lastTap = 0;
+
+        function openAdminOverlay() {
+            document.getElementById('admin-overlay').classList.add('open');
+            document.getElementById('admin-auth').classList.remove('hidden');
+            document.getElementById('admin-main').classList.add('hidden');
+            document.getElementById('admin-password').value = '';
+            document.getElementById('auth-error').classList.add('hidden');
+            setTimeout(() => document.getElementById('admin-password').focus(), 100);
+        }
+
+        // Double-tap for touch devices
+        ogLogo.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTap < 400) {
+                e.preventDefault();
+                openAdminOverlay();
+            }
+            lastTap = now;
+        });
+
+        // Double-click for desktop
+        ogLogo.addEventListener('dblclick', function(e) {
+            e.preventDefault();
+            openAdminOverlay();
+        });
+
+        // Close on overlay background click
+        document.getElementById('admin-overlay').addEventListener('click', function(e) {
+            if (e.target === this) closeAdmin();
+        });
+
+        // ===== ADMIN AUTH =====
+        const ADMIN_PASSWORD = 'RYDER145@';
+
+        document.getElementById('admin-password').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') authLogin();
+        });
+
+        function authLogin() {
+            const val = document.getElementById('admin-password').value;
+            if (val === ADMIN_PASSWORD) {
+                document.getElementById('admin-auth').classList.add('hidden');
+                document.getElementById('admin-main').classList.remove('hidden');
+                renderSavedProjects();
+            } else {
+                document.getElementById('auth-error').classList.remove('hidden');
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-password').focus();
+            }
+        }
+
+        function closeAdmin() {
+            document.getElementById('admin-overlay').classList.remove('open');
+        }
+
+        // ===== ADMIN PROJECT MANAGEMENT (Firestore) =====
+        // db is set by the Firebase module below after init
+        let _db = null;
+        let _collection = null;
+        let _addDoc = null;
+        let _deleteDoc = null;
+        let _doc = null;
+        let _onSnapshot = null;
+
+        function previewImg() {
+            const url = document.getElementById('p-img').value.trim();
+            const preview = document.getElementById('img-preview');
+            if (url) {
+                preview.src = url;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        async function addProject() {
+            const name    = document.getElementById('p-name').value.trim();
+            const caption = document.getElementById('p-caption').value.trim();
+            const url     = document.getElementById('p-url').value.trim();
+            const img     = document.getElementById('p-img').value.trim();
+
+            const errEl  = document.getElementById('add-error');
+            const okEl   = document.getElementById('add-success');
+            const btn    = document.querySelector('#admin-main .admin-btn-primary');
+
+            errEl.classList.add('hidden');
+            okEl.classList.add('hidden');
+
+            if (!name || !caption || !url || !img) {
+                errEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.textContent = 'Saving…';
+            btn.disabled = true;
+
+            try {
+                await _addDoc(_collection(_db, 'projects'), {
+                    name, caption, url, img,
+                    createdAt: Date.now()
+                });
+
+                // Clear form
+                document.getElementById('p-name').value = '';
+                document.getElementById('p-caption').value = '';
+                document.getElementById('p-url').value = '';
+                document.getElementById('p-img').value = '';
+                document.getElementById('img-preview').style.display = 'none';
+
+                okEl.classList.remove('hidden');
+                setTimeout(() => okEl.classList.add('hidden'), 2500);
+            } catch(e) {
+                errEl.textContent = 'Error saving: ' + e.message;
+                errEl.classList.remove('hidden');
+            }
+
+            btn.textContent = '＋ Add to Grid';
+            btn.disabled = false;
+        }
+
+        async function deleteProject(firestoreId) {
+            if (!confirm('Remove this project from the grid?')) return;
+            try {
+                await _deleteDoc(_doc(_db, 'projects', firestoreId));
+                // Card removed automatically by onSnapshot listener
+            } catch(e) {
+                alert('Error deleting: ' + e.message);
+            }
+        }
+
+        function injectProjectCard(project) {
+            const grid = document.getElementById('projects-grid');
+            const div = document.createElement('div');
+            div.id = 'dynamic-card-' + project.firestoreId;
+            div.className = 'project-card glass p-6 rounded-[2rem] group';
+            div.innerHTML = `
+                <div class="aspect-video bg-slate-900 rounded-2xl mb-6 overflow-hidden">
+                    <img src="${escapeHtml(project.img)}" alt="${escapeHtml(project.name)}" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700" onerror="this.src='https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80'">
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2">${escapeHtml(project.name)}</h3>
+                <p class="text-slate-400 mb-8 text-sm leading-relaxed">${escapeHtml(project.caption)}</p>
+                <a href="${escapeHtml(project.url)}" target="_blank" class="w-full flex justify-between items-center px-6 py-4 bg-white/5 text-white font-bold rounded-xl hover:bg-blue-600 transition-all border border-white/5">Launch Site <span>→</span></a>
+            `;
+            grid.appendChild(div);
+        }
+
+        function renderSavedProjects(projects) {
+            const list  = document.getElementById('saved-projects-list');
+            const count = document.getElementById('project-count');
+            count.textContent = projects.length;
+
+            if (projects.length === 0) {
+                list.innerHTML = '<p class="text-slate-600 text-sm text-center py-4">No custom projects yet.</p>';
+                return;
+            }
+
+            list.innerHTML = projects.map(p => `
+                <div class="saved-project-item">
+                    <img src="${escapeHtml(p.img)}" alt="${escapeHtml(p.name)}" onerror="this.src='https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=200&q=60'">
+                    <span class="saved-project-item-name">${escapeHtml(p.name)}</span>
+                    <button class="admin-btn admin-btn-danger" onclick="deleteProject('${p.firestoreId}')">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // ===== EXPOSE GLOBALS FOR INLINE ONCLICK =====
+        window.addProject    = addProject;
+        window.deleteProject = deleteProject;
+        window.previewImg    = previewImg;
+        window.authLogin     = authLogin;
+        window.closeAdmin    = closeAdmin;
+    </script>
+
+    <!-- ===== FIREBASE MODULE ===== -->
+    <script type="module">
+        import { initializeApp }                          from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+        import { getAnalytics }                           from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
+        import { getFirestore, collection, addDoc,
+                 deleteDoc, doc, onSnapshot,
+                 query, orderBy }                         from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey:            "AIzaSyCG3f7K2oo7ZkCj4-XJpO-rqRgvOk9y6H0",
+            authDomain:        "ryder-portfolio.firebaseapp.com",
+            projectId:         "ryder-portfolio",
+            storageBucket:     "ryder-portfolio.firebasestorage.app",
+            messagingSenderId: "204269160761",
+            appId:             "1:204269160761:web:082e4f622063de74b080e8",
+            measurementId:     "G-2659TX8GJL"
+        };
+
+        const app       = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db        = getFirestore(app);
+
+        // Wire up Firestore helpers to the regular script scope
+        _db         = db;
+        _collection = collection;
+        _addDoc     = addDoc;
+        _deleteDoc  = deleteDoc;
+        _doc        = doc;
+        _onSnapshot = onSnapshot;
+
+        // ===== REAL-TIME LISTENER =====
+        // Keeps the grid & admin list in sync across all visitors in real time
+        const q = query(collection(db, 'projects'), orderBy('createdAt', 'asc'));
+
+        const knownIds = new Set();
+        const allProjects = [];
+
+        onSnapshot(q, (snapshot) => {
+            snapshot.docChanges().forEach(change => {
+                const data = change.doc.data();
+                const project = { ...data, firestoreId: change.doc.id };
+
+                if (change.type === 'added') {
+                    if (!knownIds.has(project.firestoreId)) {
+                        knownIds.add(project.firestoreId);
+                        allProjects.push(project);
+                        injectProjectCard(project);
+                    }
+                }
+
+                if (change.type === 'removed') {
+                    knownIds.delete(project.firestoreId);
+                    const idx = allProjects.findIndex(p => p.firestoreId === project.firestoreId);
+                    if (idx > -1) allProjects.splice(idx, 1);
+                    const card = document.getElementById('dynamic-card-' + project.firestoreId);
+                    if (card) card.remove();
+                }
+            });
+
+            // Refresh admin list if panel is open
+            if (document.getElementById('admin-main') && !document.getElementById('admin-main').classList.contains('hidden')) {
+                renderSavedProjects(allProjects);
+            }
+        });
+
+        // Override renderSavedProjects so admin panel always gets latest list
+        window._getAllProjects = () => allProjects;
     </script>
 </body>
-
 </html>
